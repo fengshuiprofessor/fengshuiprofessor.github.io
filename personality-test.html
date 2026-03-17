@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日主看個性 — 衍易風水教室</title>
+  <meta name="description" content="輸入您的出生日期，算出八字的日主天干與五行屬性，了解您的個性特質。">
+  <meta property="og:title" content="日主看個性 — 衍易風水教室">
+  <meta property="og:description" content="輸入出生日期，算出日主天干與五行屬性。">
+  <meta property="og:url" content="https://www.fengshuiprofessor.com/personality-test.html">
+  <link rel="canonical" href="https://www.fengshuiprofessor.com/personality-test.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&family=Noto+Sans+TC:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="main-content">
+    <section class="hero hero-page">
+      <div class="container">
+        <div class="hero-content">
+          <h1>八字的日主看個性</h1>
+          <p>輸入您的出生日期，了解您的天干與五行屬性</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="calculator-form">
+          <form id="bdayForm">
+            <div class="form-group">
+              <label for="bdayInput">請輸入您的生日</label>
+              <input type="text" id="bdayInput" placeholder="yyyy-mm-dd（例如：1990-05-15）" autocomplete="off">
+              <p id="inputError" style="color:#e63946; font-size:0.85rem; margin-top:var(--space-xs); min-height:1.2em;"></p>
+            </div>
+            <button type="submit" id="calcBtn" class="btn btn-primary" style="width:100%;">查詢日主</button>
+          </form>
+
+          <div id="resultBox" class="result-box">
+            <div class="result-label">您的日主是：</div>
+            <div class="result-value" id="resultGan"></div>
+            <div class="result-label" style="margin-top:var(--space-md);">您的五行是：</div>
+            <div class="result-element" id="resultXing"></div>
+
+            <!-- Wuxing descriptions (inlined, replaces Bitbucket iframes) -->
+            <div id="wuxing-0" class="wuxing-desc result-description" style="display:none;">
+              <h3>木（甲木・乙木）</h3>
+              <p>木主仁。木的個性直爽，有擔當，有魄力，好華美，有風雅的趣味，但是也有以自我為中心的傾向。</p>
+              <p><strong>甲木</strong>為陽木，像大樹一樣，性格剛直，有領導力，有主見，不輕易改變立場。甲木的人重情義，但有時候會顯得固執。</p>
+              <p><strong>乙木</strong>為陰木，像花草藤蔓，性格柔順，善於適應環境，有韌性。乙木的人溫和細膩，善解人意，但有時優柔寡斷。</p>
+            </div>
+
+            <div id="wuxing-1" class="wuxing-desc result-description" style="display:none;">
+              <h3>火（丙火・丁火）</h3>
+              <p>火主禮。火的個性熱情，有禮貌，善於表達，光明磊落，但是急躁缺乏耐心。</p>
+              <p><strong>丙火</strong>為陽火，像太陽一樣，性格豪爽大方，熱情奔放，光明正大。丙火的人慷慨豁達，但有時鋒芒太露。</p>
+              <p><strong>丁火</strong>為陰火，像燭光燈火，性格溫和內斂，心思細膩。丁火的人含蓄有禮，善於觀察，但有時多慮。</p>
+            </div>
+
+            <div id="wuxing-2" class="wuxing-desc result-description" style="display:none;">
+              <h3>土（戊土・己土）</h3>
+              <p>土主信。土的個性厚重，講信用，踏實穩重，寬容大度，但是也有固執保守的一面。</p>
+              <p><strong>戊土</strong>為陽土，像大地高山，性格穩重敦厚，有包容力，可靠踏實。戊土的人誠懇守信，但有時不夠靈活。</p>
+              <p><strong>己土</strong>為陰土，像田園沃土，性格溫順謙和，細心周到。己土的人善於養育照顧，但有時過於拘泥細節。</p>
+            </div>
+
+            <div id="wuxing-3" class="wuxing-desc result-description" style="display:none;">
+              <h3>金（庚金・辛金）</h3>
+              <p>金主義。金的個性剛毅，講義氣，果斷堅決，有正義感，但是也有肅殺決絕的一面。</p>
+              <p><strong>庚金</strong>為陽金，像刀劍斧鉞，性格剛強果斷，有魄力，敢作敢當。庚金的人勇敢正直，但有時過於強硬。</p>
+              <p><strong>辛金</strong>為陰金，像珠寶首飾，性格細緻優雅，有品味。辛金的人聰明靈巧，但有時過於挑剔。</p>
+            </div>
+
+            <div id="wuxing-4" class="wuxing-desc result-description" style="display:none;">
+              <h3>水（壬水・癸水）</h3>
+              <p>水主智。水的個性聰明，善於變通，足智多謀，但是也有不安定的傾向。</p>
+              <p><strong>壬水</strong>為陽水，像大海江河，性格豪放不羈，胸襟開闊，富有冒險精神。壬水的人聰慧多才，但有時放蕩不羈。</p>
+              <p><strong>癸水</strong>為陰水，像雨露溪流，性格溫柔敏感，心思細膩。癸水的人善解人意，直覺力強，但有時多愁善感。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/assets/js/includes.js"></script>
+  <script src="/assets/js/personality-test.js"></script>
+  <script src="/assets/js/analytics.js"></script>
+</body>
+</html>
