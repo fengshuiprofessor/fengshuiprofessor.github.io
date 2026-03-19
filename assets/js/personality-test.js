@@ -52,19 +52,42 @@
     };
   }
 
+  var elementEmoji = ['🌳', '🔥', '⛰️', '🪙', '💧'];
+  var elementColor = ['#2d8a4e', '#e63946', '#b8860b', '#c9a227', '#2a6fa8'];
+
   function showResult(result) {
     var resultBox = document.getElementById('resultBox');
     var ganEl = document.getElementById('resultGan');
     var xingEl = document.getElementById('resultXing');
     var descEls = document.querySelectorAll('.wuxing-desc');
+    var shareSection = document.getElementById('shareSection');
 
     resultBox.classList.add('active');
     ganEl.textContent = result.gan;
     xingEl.textContent = result.yy + result.xing;
 
+    /* Set accent color based on element */
+    resultBox.style.borderColor = elementColor[result.wxIndex];
+
     descEls.forEach(function (el) { el.style.display = 'none'; });
     var activeDesc = document.getElementById('wuxing-' + result.wxIndex);
     if (activeDesc) activeDesc.style.display = 'block';
+
+    /* Update share section */
+    if (shareSection) {
+      shareSection.style.display = 'block';
+      var emoji = elementEmoji[result.wxIndex];
+      var shareText = emoji + ' 我的日主是「' + result.gan + '」，五行屬「' + result.yy + result.xing + '」！你的五行是什麼？快來測試！';
+      var pageUrl = 'https://www.fengshuiprofessor.com/personality-test.html';
+
+      /* Store for share buttons */
+      shareSection.dataset.text = shareText;
+      shareSection.dataset.url = pageUrl;
+
+      /* Update preview card */
+      var previewEl = document.getElementById('sharePreview');
+      if (previewEl) previewEl.textContent = shareText;
+    }
   }
 
   function clearResult() {
@@ -106,6 +129,42 @@
     input.addEventListener('input', function () {
       clearResult();
       errEl.textContent = '';
+    });
+
+    /* Share button handlers */
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-share]');
+      if (!btn) return;
+
+      var section = document.getElementById('shareSection');
+      if (!section) return;
+      var text = section.dataset.text || '';
+      var url = section.dataset.url || '';
+      var encoded = encodeURIComponent(text + '\n' + url);
+
+      var platform = btn.dataset.share;
+      var shareUrl = '';
+
+      if (platform === 'facebook') {
+        shareUrl = 'https://www.facebook.com/sharer/sharer.php?quote=' + encodeURIComponent(text) + '&u=' + encodeURIComponent(url);
+      } else if (platform === 'line') {
+        shareUrl = 'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text);
+      } else if (platform === 'whatsapp') {
+        shareUrl = 'https://wa.me/?text=' + encoded;
+      } else if (platform === 'copy') {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text + '\n' + url);
+        }
+        var copyBtn = btn;
+        var orig = copyBtn.textContent;
+        copyBtn.textContent = '已複製！';
+        setTimeout(function () { copyBtn.textContent = orig; }, 2000);
+        return;
+      }
+
+      if (shareUrl) {
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+      }
     });
   });
 })();

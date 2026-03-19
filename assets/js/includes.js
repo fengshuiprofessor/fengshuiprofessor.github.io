@@ -23,7 +23,15 @@
   Promise.all([
     loadInclude('site-header', '/includes/header.html'),
     loadInclude('site-footer', '/includes/footer.html')
-  ]).then(initNav);
+  ]).then(function () {
+    initNav();
+
+    /* Hide footer "about" block on homepage (already shown as page content) */
+    if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+      var footerAbout = document.getElementById('footer-about');
+      if (footerAbout) footerAbout.style.display = 'none';
+    }
+  });
 
   /* --- Navigation --- */
   function initNav() {
