@@ -2,9 +2,11 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>萬年曆 2001–2024 — 衍易國學工作坊</title>
   <meta name="description" content="萬年曆 2001–2024：查詢2001年至2024年的天干地支、節氣、吉凶宜忌等中國傳統曆法資訊。">
+  <meta property="og:image" content="https://www.fengshuiprofessor.com/assets/images/service-office.jpg">
   <link rel="canonical" href="https://www.fengshuiprofessor.com/calendar/2001-2024.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,9 +34,21 @@
           <a href="/calendar/2001-2024.html" class="active">2001–2024</a>
         </div>
         <div style="margin-top: var(--space-xl);">
-          <embed src="/assets/pdfs/calendar-2001-2024.pdf?v=2#toolbar=0&navpanes=0" type="application/pdf" width="100%" height="800px" style="border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+          <!-- Desktop: embedded PDF viewer -->
+          <div class="pdf-desktop">
+            <embed src="/assets/pdfs/calendar-2001-2024.pdf?v=2#toolbar=0&navpanes=0" type="application/pdf" width="100%" height="800px" style="border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+          </div>
+          <!-- Mobile fallback: prominent buttons -->
+          <div class="pdf-mobile" style="display:none; text-align:center; padding: var(--space-2xl) var(--space-lg); background: var(--color-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+            <p style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--color-navy); margin-bottom: var(--space-md);">萬年曆 2001–2024</p>
+            <p style="color: var(--color-text-light); margin-bottom: var(--space-xl);">手機瀏覽器無法直接顯示 PDF，請選擇以下方式查看：</p>
+            <div style="display: flex; flex-direction: column; gap: var(--space-md); max-width: 300px; margin: 0 auto;">
+              <a href="/assets/pdfs/calendar-2001-2024.pdf" target="_blank" class="btn btn-primary">在新視窗開啟 PDF</a>
+              <a href="/assets/pdfs/calendar-2001-2024.pdf" download class="btn btn-outline-dark">下載 PDF 檔案</a>
+            </div>
+          </div>
           <p style="text-align:center; margin-top: var(--space-lg); color: var(--color-text-light); font-size: 0.9rem;">
-            如果無法顯示 PDF，請<a href="/assets/pdfs/calendar-2001-2024.pdf?v=2#toolbar=0&navpanes=0" download>點此下載萬年曆 2001–2024</a>。
+            如果無法顯示 PDF，請<a href="/assets/pdfs/calendar-2001-2024.pdf" download>點此下載萬年曆 2001–2024</a>。
           </p>
         </div>
       </div>
