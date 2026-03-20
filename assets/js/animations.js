@@ -22,50 +22,56 @@
     if (!hero) return;
 
     var container = document.createElement('div');
-    container.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;';
+    container.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;';
 
-    var count = rand(8, 14);
-    var baseTop = rand(15, 30);
-    var clusterLeft = rand(40, 60);
-    var dur = rand(25, 40);
+    var count = rand(8, 10);
+    var baseTop = rand(20, 30);
+    var dur = rand(30, 45);
+    var leaderSize = rand(32, 42);
 
     var SVG_NS = 'http://www.w3.org/2000/svg';
-    for (var i = 0; i < count; i++) {
-      var size = rand(28, 48);
-      var opacity = (0.3 + Math.random() * 0.2).toFixed(2);
-      var flapSpeed = (0.8 + Math.random() * 0.6).toFixed(2);
 
-      /* Bird wrapper — starts off-screen left, scattered vertically within flock */
+    /* 人型雁 V-formation: leader at front, two trailing arms */
+    for (var i = 0; i < count; i++) {
+      /* Position in V: bird 0 is leader, odd birds go up-left, even birds go down-left */
+      var rank = Math.ceil(i / 2); /* distance from leader */
+      var arm = (i % 2 === 1) ? -1 : 1; /* upper arm or lower arm */
+      if (i === 0) { rank = 0; arm = 0; }
+
+      var size = leaderSize - rank * 2; /* farther birds slightly smaller */
+      if (size < 18) size = 18;
+      var opacity = (0.4 - rank * 0.03).toFixed(2);
+      var flapSpeed = (0.8 + Math.random() * 0.4).toFixed(2);
+
+      /* V-formation offsets: each rank is further left and up/down */
+      var topOffset = baseTop + arm * rank * 3;
+      var delayOffset = rank * 1.2; /* trailing birds slightly behind in time */
+
       var bird = document.createElement('div');
-      var offsetX = rand(-3, 3);
-      var delayOffset = rand(0, 5);
       bird.style.cssText =
         'position:absolute;' +
         'left:0;' +
-        'top:' + (baseTop + rand(-10, 10)) + '%;' +
-        'margin-left:' + (offsetX * size) + 'px;' +
-        'width:' + size + 'px; height:' + size + 'px;' +
+        'top:' + topOffset + '%;' +
+        'width:' + size + 'px; height:' + (size * 0.5) + 'px;' +
         'animation: birdFly ' + dur + 's linear infinite;' +
-        'animation-delay: -' + delayOffset + 's;';
+        'animation-delay: -' + delayOffset.toFixed(1) + 's;';
 
-      /* SVG bird — two curved brush strokes meeting at center bottom */
+      /* SVG bird — two curved brush strokes */
       var svg = document.createElementNS(SVG_NS, 'svg');
       svg.setAttribute('viewBox', '0 0 40 20');
       svg.setAttribute('width', size + 'px');
       svg.setAttribute('height', (size * 0.5) + 'px');
-      svg.style.cssText = 'overflow:visible;';
+      svg.style.cssText = 'overflow:visible;display:block;';
 
-      /* Left wing stroke */
       var lw = document.createElementNS(SVG_NS, 'path');
       lw.setAttribute('d', 'M20,18 C16,10 8,2 1,5');
       lw.setAttribute('fill', 'none');
-      lw.setAttribute('stroke', 'rgba(255,255,255,' + opacity + ')');
+      lw.setAttribute('stroke', 'rgba(201,162,39,' + opacity + ')');
       lw.setAttribute('stroke-width', '2.5');
       lw.setAttribute('stroke-linecap', 'round');
       lw.style.cssText = 'transform-origin: 20px 18px; animation: wingFlap ' + flapSpeed + 's ease-in-out infinite; --wing-up: 8deg; --wing-down: -12deg;';
       svg.appendChild(lw);
 
-      /* Right wing stroke */
       var rw = document.createElementNS(SVG_NS, 'path');
       rw.setAttribute('d', 'M20,18 C24,10 32,2 39,5');
       rw.setAttribute('fill', 'none');
@@ -89,90 +95,55 @@
     var container = document.createElement('div');
     container.style.cssText = 'position:absolute;bottom:0;left:0;right:0;height:180px;pointer-events:none;overflow:hidden;';
 
+    var baseHullW = rand(45, 55);
     var boatConfigs = [
-      { size: rand(60, 80), opacity: 0.25, bottom: rand(10, 20), anim: 'boatRight', dur: rand(90, 120), delay: rand(0, 30) },
-      { size: rand(45, 65), opacity: 0.20, bottom: rand(18, 30), anim: 'boatLeft',  dur: rand(110, 140), delay: rand(10, 40) },
-      { size: rand(35, 50), opacity: 0.15, bottom: rand(25, 40), anim: 'boatRight', dur: rand(130, 160), delay: rand(20, 50) }
+      { opacity: 0.3, bottom: rand(15, 25), anim: 'boatRight', dur: rand(90, 120), delay: rand(0, 30), hullW: baseHullW + rand(-3, 3) },
+      { opacity: 0.25, bottom: rand(22, 32), anim: 'boatLeft',  dur: rand(110, 140), delay: rand(10, 40), hullW: baseHullW + rand(-3, 3) },
+      { opacity: 0.2, bottom: rand(30, 42), anim: 'boatRight', dur: rand(130, 160), delay: rand(20, 50), hullW: baseHullW + rand(-3, 3) }
     ];
 
     for (var i = 0; i < boatConfigs.length; i++) {
       var c = boatConfigs[i];
-      var s = c.size;
-      var waterline = s * 0.15; /* how deep the hull sits in water */
+      var hw = c.hullW;
+      var mastH = Math.round(hw * 0.65);
+      var sailH = Math.round(mastH * 0.7);
+      var sailW = Math.round(hw * 0.35);
+      var col = 'rgba(201,162,39,';
+      var anim = 'position:absolute;animation:' + c.anim + ' ' + c.dur + 's linear infinite;animation-delay:-' + c.delay + 's;';
 
-      var boat = document.createElement('div');
-      boat.style.cssText =
-        'position:absolute;' +
-        'bottom:' + c.bottom + 'px;' +
-        'width:' + s + 'px; height:' + (s * 1.3) + 'px;' +
-        'background: #1d3557;' +
-        'z-index:' + (3 - i) + ';' +
-        'animation: ' + c.anim + ' ' + c.dur + 's linear infinite;' +
-        'animation-delay: -' + c.delay + 's;';
+      /* Hull — horizontal bar with rounded ends */
+      var hull = document.createElement('span');
+      hull.style.cssText = anim +
+        'bottom:' + c.bottom + 'px;width:' + hw + 'px;height:3px;' +
+        'background:' + col + c.opacity.toFixed(2) + ');border-radius:2px;';
+      container.appendChild(hull);
 
-      /* Upper boat (above water) — clipped at waterline */
-      var upper = document.createElement('div');
-      upper.style.cssText =
-        'position:absolute; bottom:' + waterline + 'px; left:0; width:100%; height:' + s + 'px;';
+      /* Mast — thin vertical bar */
+      var mast = document.createElement('span');
+      mast.style.cssText = anim +
+        'bottom:' + (c.bottom + 1) + 'px;margin-left:' + Math.round(hw * 0.45) + 'px;' +
+        'width:2px;height:' + mastH + 'px;' +
+        'background:' + col + c.opacity.toFixed(2) + ');';
+      container.appendChild(mast);
 
-      /* Hull visible part above water */
-      var hull = document.createElement('div');
-      hull.style.cssText =
-        'position:absolute; bottom:0; left:5%; width:90%;' +
-        'height:' + (s * 0.18) + 'px;' +
-        'background: rgba(255,255,255,' + (c.opacity * 1.2).toFixed(2) + ');' +
-        'border-radius: 0 0 40% 40%;';
-      upper.appendChild(hull);
-
-      /* Deck line */
-      var deck = document.createElement('div');
-      deck.style.cssText =
-        'position:absolute; bottom:' + (s * 0.15) + 'px; left:0; width:100%;' +
-        'height:' + Math.max(2, s * 0.06) + 'px;' +
-        'background: rgba(255,255,255,' + (c.opacity * 1.2).toFixed(2) + ');' +
-        'border-radius: 2px;';
-      upper.appendChild(deck);
-
-      /* Mast */
-      var mast = document.createElement('div');
-      mast.style.cssText =
-        'position:absolute; bottom:' + (s * 0.15) + 'px; left:48%;' +
-        'width:' + Math.max(1, s * 0.04) + 'px; height:' + (s * 0.65) + 'px;' +
-        'background: rgba(255,255,255,' + (c.opacity * 1.0).toFixed(2) + ');';
-      upper.appendChild(mast);
-
-      /* Sail */
-      var sail = document.createElement('div');
-      var sailColor = 'rgba(255,255,255,' + (c.opacity * 0.7).toFixed(2) + ')';
-      if (c.anim === 'boatLeft') {
-        sail.style.cssText =
-          'position:absolute; bottom:' + (s * 0.25) + 'px; right:50%;' +
-          'width:0; height:0;' +
-          'border-right:0 solid transparent;' +
-          'border-left:' + (s * 0.4) + 'px solid transparent;' +
-          'border-bottom:' + (s * 0.5) + 'px solid ' + sailColor + ';';
+      /* Sail — CSS triangle via borders */
+      var sail = document.createElement('span');
+      if (c.anim === 'boatRight') {
+        sail.style.cssText = anim +
+          'bottom:' + (c.bottom + Math.round(mastH * 0.25)) + 'px;' +
+          'margin-left:' + Math.round(hw * 0.47) + 'px;' +
+          'width:0;height:0;' +
+          'border-left:0;border-right:' + sailW + 'px solid transparent;' +
+          'border-bottom:' + sailH + 'px solid ' + col + (c.opacity * 0.5).toFixed(2) + ');';
       } else {
-        sail.style.cssText =
-          'position:absolute; bottom:' + (s * 0.25) + 'px; left:50%;' +
-          'width:0; height:0;' +
-          'border-left:0 solid transparent;' +
-          'border-right:' + (s * 0.4) + 'px solid transparent;' +
-          'border-bottom:' + (s * 0.5) + 'px solid ' + sailColor + ';';
+        sail.style.cssText = anim +
+          'bottom:' + (c.bottom + Math.round(mastH * 0.25)) + 'px;' +
+          'margin-left:' + Math.round(hw * 0.45 - sailW) + 'px;' +
+          'width:0;height:0;' +
+          'border-right:0;border-left:' + sailW + 'px solid transparent;' +
+          'border-bottom:' + sailH + 'px solid ' + col + (c.opacity * 0.5).toFixed(2) + ');';
       }
-      upper.appendChild(sail);
-      boat.appendChild(upper);
-
-      /* Reflection below waterline — faint, flipped */
-      var reflection = document.createElement('div');
-      reflection.style.cssText =
-        'position:absolute; bottom:0; left:5%; width:90%;' +
-        'height:' + waterline + 'px;' +
-        'background: rgba(255,255,255,' + (c.opacity * 0.3).toFixed(2) + ');' +
-        'border-radius: 40% 40% 0 0;' +
-        'filter: blur(1px);';
-      boat.appendChild(reflection);
-
-      container.appendChild(boat);
+      container.appendChild(sail);
     }
 
     footer.appendChild(container);
