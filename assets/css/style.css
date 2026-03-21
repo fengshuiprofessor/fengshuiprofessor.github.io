@@ -920,6 +920,33 @@ p {
   .pdf-mobile { display: block !important; }
 }
 
+/* --- Photo Gallery --- */
+.photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.photo-gallery img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 768px) {
+  .photo-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+}
+
 /* --- Breadcrumb --- */
 .breadcrumb {
   display: flex;
@@ -1082,7 +1109,8 @@ p {
   }
 
   .hero {
-    min-height: 320px;
+    min-height: 380px;
+    padding-bottom: 70px;
   }
 
   .hero h1 {
@@ -1090,7 +1118,8 @@ p {
   }
 
   .hero-page {
-    min-height: 220px;
+    min-height: 250px;
+    padding-bottom: 50px;
   }
 
   h1 { font-size: 1.75rem; }
@@ -1123,6 +1152,16 @@ p {
   .calculator-form {
     padding: var(--space-lg);
   }
+
+  .cta-section,
+  .cta-section-alt {
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .footer-bottom {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
 }
 
 /* Small mobile */
@@ -1131,12 +1170,35 @@ p {
     padding: 0 var(--space-md);
   }
 
+  .hero {
+    min-height: 350px;
+    padding-bottom: 50px;
+  }
+
   .hero h1 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .hero-page {
+    min-height: 200px;
+    padding-bottom: 40px;
+  }
+
+  .hero::after {
+    height: 40px;
   }
 
   .btn {
     padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-lg {
+    padding: 0.625rem 1.5rem;
     font-size: 0.9rem;
   }
 
@@ -1144,6 +1206,16 @@ p {
   .data-table td {
     padding: var(--space-sm) var(--space-md);
     font-size: 0.8rem;
+  }
+
+  .footer-bottom {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
+
+  .cta-section h2,
+  .cta-section-alt h2 {
+    font-size: 1.3rem;
   }
 }
 
@@ -1288,6 +1360,15 @@ p {
 
 .hero-page::after {
   height: 80px;
+}
+
+@media (max-width: 768px) {
+  .hero::after {
+    height: 60px;
+  }
+  .hero-page::after {
+    height: 40px;
+  }
 }
 
 /* --- Ink Wash Mountains (body background) --- */
