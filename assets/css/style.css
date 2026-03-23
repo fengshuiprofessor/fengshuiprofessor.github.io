@@ -1065,6 +1065,10 @@ p {
   .hero h1 {
     font-size: 2rem;
   }
+
+  .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* Mobile landscape */

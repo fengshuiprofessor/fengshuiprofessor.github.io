@@ -1,0 +1,13 @@
+# Development screenshots & reference images
+inkwash-*.png
+scroll-*.png
+reference-painting.png
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
